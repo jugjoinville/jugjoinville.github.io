@@ -1,12 +1,8 @@
-// import { defineConfig } from 'astro/config';
-// import tailwind from '@astrojs/tailwind';
-
-// export default defineConfig({
-//    integrations: [tailwind()],
-// });
-
-import { defineConfig } from 'astro/config'
+import { defineConfig } from 'astro/config';
+import tailwind from '@astrojs/tailwind';
 
 export default defineConfig({
-  site: 'https://jugjoinville.github.io',
-})
+   integrations: [tailwind()],
+   site: 'https://jugjoinville.github.io',
+});
+
