@@ -1,0 +1,47 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+// This is a placeholder for blog posts. In a real implementation,
+// you would fetch posts from a CMS or markdown files
+const posts = [
+  {
+    title: 'Getting Started with Java 21',
+    excerpt: 'Explore the latest features in Java 21 and how they can improve your code.',
+    date: '2024-03-15',
+    slug: 'getting-started-with-java-21',
+  },
+  {
+    title: 'Spring Boot Best Practices',
+    excerpt: 'Learn the best practices for building robust applications with Spring Boot.',
+    date: '2024-03-10',
+    slug: 'spring-boot-best-practices',
+  },
+];
+---
+
+<Layout title="Blog Posts">
+  <div class="max-w-4xl mx-auto">
+    <h1 class="text-4xl font-bold mb-8 text-java-orange">Blog Posts</h1>
+    <div class="grid gap-8">
+      {
+        posts.map((post) => (
+          <article class="bg-gray-800 p-6 rounded-lg">
+            <h2 class="text-2xl font-bold mb-2 text-java-blue">
+              <a href={`/posts/${post.slug}`} class="hover:text-java-orange transition-colors">
+                {post.title}
+              </a>
+            </h2>
+            <p class="text-sm text-gray-400 mb-4">{post.date}</p>
+            <p class="text-gray-300">{post.excerpt}</p>
+            <a
+              href={`/posts/${post.slug}`}
+              class="inline-block mt-4 text-java-orange hover:text-java-blue transition-colors"
+            >
+              Read more →
+            </a>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</Layout>
