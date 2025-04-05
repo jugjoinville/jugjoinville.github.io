@@ -5,7 +5,6 @@
   "private": true,
   "scripts": {
     "dev": "npm run dev",
-    "build": "npm i",
     "preview": "./node_modules/.bin/astro preview",
     "astro": "./node_modules/.bin/astro"
   },
