@@ -1,0 +1,194 @@
+---
+title: "Spring Boot 3: Modern Best Practices for 2024"
+date: "2024-03-15"
+author: "Carlos Santos"
+description: "Essential best practices for building modern Spring Boot applications"
+---
+
+Spring Boot 3 brings significant improvements and new features that help developers build better applications. Let's explore the best practices for modern Spring Boot development in 2024.
+
+## Project Structure and Architecture
+
+Modern Spring Boot applications benefit from a feature-based structure rather than the traditional layered architecture:
+
+```text
+com.example.project/
+  ├── user/
+  │   ├── domain/
+  │   │   ├── User.java
+  │   │   └── UserService.java
+  │   ├── infrastructure/
+  │   │   └── UserRepository.java
+  │   └── api/
+  │       └── UserController.java
+  ├── product/
+  │   ├── domain/
+  │   ├── infrastructure/
+  │   └── api/
+  └── shared/
+      ├── config/
+      ├── security/
+      └── exception/
+```
+
+## Configuration Management
+
+Use configuration record classes with validation:
+
+```java
+@ConfigurationProperties(prefix = "app")
+@Validated
+public record ApplicationConfig(
+    @NotNull String apiKey,
+    @Min(1) int maxRetries,
+    @NotEmpty String region,
+    @Valid SecurityConfig security
+) {
+    public record SecurityConfig(
+        @NotNull Duration tokenExpiration,
+        @NotEmpty String issuer
+    ) {}
+}
+```
+
+## Modern Exception Handling
+
+Implement a comprehensive error handling strategy:
+
+```java
+@RestControllerAdvice
+public class GlobalExceptionHandler {
+    private final ErrorResponseBuilder errorResponseBuilder;
+
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ProblemDetail handleResourceNotFound(
+            ResourceNotFoundException ex,
+            WebRequest request
+    ) {
+        return ProblemDetail.forStatusAndDetail(
+            HttpStatus.NOT_FOUND,
+            ex.getMessage()
+        );
+    }
+
+    @ExceptionHandler(ValidationException.class)
+    public ProblemDetail handleValidation(
+            ValidationException ex,
+            WebRequest request
+    ) {
+        var problemDetail = ProblemDetail.forStatus(HttpStatus.BAD_REQUEST);
+        problemDetail.setTitle("Validation Error");
+        problemDetail.setDetail(ex.getMessage());
+        return problemDetail;
+    }
+}
+```
+
+## Testing Strategies
+
+Embrace modern testing approaches:
+
+```java
+@SpringBootTest
+class UserServiceTest {
+    @Autowired
+    private UserService userService;
+
+    @MockBean
+    private UserRepository userRepository;
+
+    @Test
+    void createUser_WithValidData_ShouldSucceed() {
+        // Given
+        var command = new CreateUserCommand("john@example.com", "John Doe");
+        when(userRepository.save(any())).thenReturn(new User(1L, "john@example.com", "John Doe"));
+
+        // When
+        var result = userService.createUser(command);
+
+        // Then
+        assertThat(result)
+            .isNotNull()
+            .satisfies(user -> {
+                assertThat(user.getId()).isNotNull();
+                assertThat(user.getEmail()).isEqualTo("john@example.com");
+                assertThat(user.getName()).isEqualTo("John Doe");
+            });
+    }
+}
+```
+
+## Security Best Practices
+
+Implement robust security measures:
+
+```java
+@Configuration
+@EnableWebSecurity
+public class SecurityConfig {
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        return http
+            .csrf(csrf -> csrf.disable())
+            .authorizeHttpRequests(auth -> auth
+                .requestMatchers("/api/public/**").permitAll()
+                .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                .anyRequest().authenticated()
+            )
+            .oauth2ResourceServer(oauth2 -> oauth2
+                .jwt(jwt -> jwt
+                    .jwtAuthenticationConverter(jwtAuthenticationConverter())
+                )
+            )
+            .sessionManagement(session -> session
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            )
+            .build();
+    }
+}
+```
+
+## Performance Optimization
+
+Consider these performance optimization techniques:
+
+1. Use Spring Boot Actuator for monitoring
+2. Implement caching strategically
+3. Optimize database queries
+4. Use connection pooling
+
+Example of caching configuration:
+
+```java
+@Configuration
+@EnableCaching
+public class CacheConfig {
+    @Bean
+    public CacheManager cacheManager() {
+        return new ConcurrentMapCacheManager("users", "products");
+    }
+}
+
+@Service
+public class UserService {
+    @Cacheable(value = "users", key = "#id")
+    public UserDTO findById(Long id) {
+        return userRepository.findById(id)
+            .map(userMapper::toDTO)
+            .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+    }
+}
+```
+
+## Conclusion
+
+Spring Boot 3 provides powerful features for building modern applications. By following these best practices, you can create maintainable, secure, and performant applications that are ready for production use.
+
+Remember to:
+- Keep your dependencies up to date
+- Monitor application performance
+- Write comprehensive tests
+- Document your APIs
+- Follow security best practices
+
+The Spring ecosystem continues to evolve, so stay informed about new features and best practices as they emerge.
