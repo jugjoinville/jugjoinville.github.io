@@ -1,24 +1,17 @@
 {
-  "name": "jug-joinville-blog",
+  "name": "@example/basics",
   "type": "module",
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "dev": "npm run dev",
-    "build": "npm run build",
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "create-zip": "node scripts/create-zip.js"
   },
   "dependencies": {
-    "@astrojs/markdown-remark": "^4.3.1",
-    "@astrojs/mdx": "^2.1.1",
-    "@astrojs/sitemap": "^3.3.0",
-    "@astrojs/tailwind": "^5.1.0",
-    "@fontsource-variable/jetbrains-mono": "^5.0.19",
-    "@fontsource/open-sans": "^5.0.23",
-    "astro": "^4.5.0",
-    "rehype-pretty-code": "^0.13.0",
-    "shiki": "^1.1.7",
-    "tailwindcss": "^3.4.1"
+    "astro": "^4.15.3"
   }
 }
