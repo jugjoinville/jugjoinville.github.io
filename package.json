@@ -4,8 +4,8 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "dev": "npm run dev",
-    "build": "npm run build",
+    "dev": "./node_modules/.bin/astro dev",
+    "build": "./node_modules/.bin/astro build",
     "preview": "./node_modules/.bin/astro preview",
     "astro": "./node_modules/.bin/astro"
   },
