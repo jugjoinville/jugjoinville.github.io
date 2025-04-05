@@ -1,17 +1,24 @@
 {
-  "name": "@example/basics",
+  "name": "@example/tech-blog",
   "type": "module",
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "dev": "astro dev",
-    "start": "astro dev",
-    "build": "astro build",
-    "preview": "astro preview",
-    "astro": "astro",
-    "create-zip": "node scripts/create-zip.js"
+    "dev": "./node_modules/.bin/astro dev",
+    "build": "./node_modules/.bin/astro build",
+    "preview": "./node_modules/.bin/astro preview",
+    "astro": "./node_modules/.bin/astro"
   },
   "dependencies": {
-    "astro": "^5.6"
+    "@astrojs/mdx": "^4.2.2",
+    "@astrojs/sitemap": "^3.3.0",
+    "@astrojs/tailwind": "^6.0.2",
+    "@fontsource-variable/jetbrains-mono": "^5.2.5",
+    "@fontsource/open-sans": "^5.2.5",
+    "@tailwindcss/postcss": "^4.0.0-alpha.13",
+    "@tailwindcss/typography": "^0.5.16",
+    "astro": "^5.5.5",
+    "rehype-pretty-code": "^0.14.1",
+    "shiki": "^3.2.1"
   }
 }
