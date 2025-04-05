@@ -10,10 +10,15 @@
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^5.2.5",
+    "@astrojs/markdown-remark": "^4.3.1",
+    "@astrojs/mdx": "^2.1.1",
+    "@astrojs/sitemap": "^3.3.0",
     "@astrojs/tailwind": "^5.1.0",
-    "tailwindcss": "^3.4.1",
     "@fontsource-variable/jetbrains-mono": "^5.0.19",
-    "@fontsource/open-sans": "^5.0.23"
+    "@fontsource/open-sans": "^5.0.23",
+    "astro": "^4.5.0",
+    "rehype-pretty-code": "^0.13.0",
+    "shiki": "^1.1.7",
+    "tailwindcss": "^3.4.1"
   }
 }
