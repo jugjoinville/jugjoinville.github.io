@@ -5,8 +5,8 @@
   "private": true,
   "scripts": {
     "dev": "npm run dev",
-    "build": "npm i",
-    "preview": "astro preview",
+    "build": "npm run build",
+    "preview": "npm run dev",
     "astro": "astro"
   },
   "dependencies": {
