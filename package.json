@@ -12,6 +12,6 @@
     "create-zip": "node scripts/create-zip.js"
   },
   "dependencies": {
-    "astro": "^4.15.3"
+    "astro": "^5.6"
   }
 }
