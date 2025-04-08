@@ -6,38 +6,41 @@ const posts = await getCollection('blog');
 posts.sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
 ---
 
-<Layout title="Posts">
+<Layout title="Blog Posts">
   <div class="max-w-4xl mx-auto">
-    <h1 class="text-4xl font-bold mb-8 text-java-orange">Posts</h1>
+    <h1 class="text-4xl font-bold mb-8 text-java-orange">Blog Posts</h1>
     <div class="grid gap-8">
       {
-        posts.map((post) => (
-          <article class="bg-gray-800 p-6 rounded-lg">
-            <h2 class="text-2xl font-bold mb-2 text-java-blue">
-              <a href={`/posts/${post.slug}`} class="hover:text-java-orange transition-colors">
-                {post.data.title}
+        posts.map((post) => {
+          const date = new Date(post.data.date + 'T00:00:00');
+          return (
+            <article class="bg-gray-800 p-6 rounded-lg">
+              <h2 class="text-2xl font-bold mb-2 text-java-blue">
+                <a href={`/posts/${post.slug}`} class="hover:text-java-orange transition-colors">
+                  {post.data.title}
+                </a>
+              </h2>
+              <div class="flex items-center text-sm text-gray-400 mb-4 space-x-4">
+                <time datetime={post.data.date}>
+                  {date.toLocaleDateString('pt-BR', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                  })}
+                </time>
+                <span>·</span>
+                <span>{post.data.author}</span>
+              </div>
+              <p class="text-gray-300">{post.data.description}</p>
+              <a
+                href={`/posts/${post.slug}`}
+                class="inline-block mt-4 text-java-orange hover:text-java-blue transition-colors"
+              >
+                Read more →
               </a>
-            </h2>
-            <div class="flex items-center text-sm text-gray-400 mb-4 space-x-4">
-              <time datetime={post.data.date}>
-                {new Date(post.data.date).toLocaleDateString('pt-BR', {
-                  year: 'numeric',
-                  month: 'long',
-                  day: 'numeric',
-                })}
-              </time>
-              <span>·</span>
-              <span>{post.data.author}</span>
-            </div>
-            <p class="text-gray-300">{post.data.description}</p>
-            <a
-              href={`/posts/${post.slug}`}
-              class="inline-block mt-4 text-java-orange hover:text-java-blue transition-colors"
-            >
-              Ler mais →
-            </a>
-          </article>
-        ))
+            </article>
+          );
+        })
       }
     </div>
   </div>
