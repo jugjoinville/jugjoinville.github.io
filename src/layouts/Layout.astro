@@ -19,6 +19,7 @@ const { title } = Astro.props;
     <link rel="icon" type="image/svg+xml" href="/java-duke-logo.png" />
     <meta name="generator" content={Astro.generator} />
     <title>{title} - Java User Group Joinville</title>
+    <link rel="alternate" type="application/rss+xml" title="Java User Group Joinville" href={new URL("feed.xml", Astro.site)} />
   </head>
   <body class="dark:bg-gray-900 dark:text-white min-h-screen flex flex-col">
     <Navigation />
